@@ -82,4 +82,4 @@ production:
   <<: *default
   database: gojek_production
   username: gojek
-  password: <%= ENV['GOJEK_DATABASE_PASSWORD'] %>
+  password: passw
