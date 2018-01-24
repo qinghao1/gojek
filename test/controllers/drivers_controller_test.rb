@@ -15,13 +15,13 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
 		expected_response = [
 			{
 				id: 1,
-				lattitude: 1,
+				latitude: 1,
 				longitude: 1,
 				distance: 0,
 			},
 			{
 				id: 2,
-				lattitude: 1,
+				latitude: 1,
 				longitude: 2,
 				distance: 1,
 			}
@@ -50,6 +50,56 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
 			errors: [
 				"Latitude should be between +/- 90",
 			]
-		}
+		}.to_json
 		assert_equal @response.body, expected_response
 	end
+
+	test "Correct driver parameters" do
+		get :location, {
+			id: 1,
+			latitude: 1,
+			longitude: 2,
+			accuracy: 0.7
+		}
+		assert_response :success
+		assert_empty @response.body
+	end
+
+	test "Decimal driver parameters" do
+		get :location, {
+			id: 2,
+			latitude: 1.12211212,
+			longitude: 2.22333334,
+			accuracy: 0.7
+		}
+		assert_response :success
+		assert_empty @response.body
+	end
+
+	test "Invalid driver id" do
+		get :location, {
+			id: 99999,
+			latitude: 1,
+			longitude: 2,
+			accuracy: 0.7
+		}
+		assert_response :missing
+		assert_empty @response.body
+	end
+
+	test "Wrong driver parameters" do
+		get :location, {
+			id: 1
+			latitude: 100,
+			longitude: 100,
+			accuracy: 0.7
+		}
+		assert_response 422
+		expected_response = {
+			errors: [
+				"Latitude should be between +/- 90",
+			]
+		}.to_json
+		assert_equal @response.body, expected_response
+	end
+end
