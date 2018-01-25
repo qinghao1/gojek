@@ -130,10 +130,35 @@ class DriversController < ApplicationController
       ]
     )
 
-    params[:latitude] = params[:latitude].to_f
-    params[:longitude] = params[:longitude].to_f
-    params[:radius] = params[:radius] ? params[:radius].to_f : 500
-    params[:limit] = params[:limit] ? params[:limit].to_f : 10
+    # Check that latitude is a decimal number
+    if /\d+(\.\d+)?/ =~ params[:latitude]
+      params[:latitude] = params[:latitude].to_f
+    else
+      params[:latitude] = nil
+    end
+
+    # Check that longitude is a decimal number
+    if /\d+(\.\d+)?/ =~ params[:longitude]
+      params[:longitude] = params[:longitude].to_f
+    else
+      params[:longitude] = nil
+    end
+
+    # Check that radius is a decimal number.
+    # If it doesn't exist, set to 500 default
+    if params[:radius] and /\d+(\.\d+)?/ =~ params[:radius]
+      params[:radius] = params[:radius].to_f 
+    else
+      params[:radius] = 500
+    end
+
+    # Check that limit is a decimal number.
+    # If it doesn't exist, set to 10 default
+    if params[:limit] and /\d+(\.\d+)?/ =~ params[:limit]
+      params[:limit] = params[:limit].to_f 
+    else
+      params[:limit] = 10
+    end
 
     return params
   end
