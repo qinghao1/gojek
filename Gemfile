@@ -8,6 +8,9 @@ end
 # Use PostGIS ActiveRecord Adapter to enable spatial database
 gem 'activerecord-postgis-adapter'
 
+# SimpleCov for code coverage testing
+gem 'simplecov', :require => false, :group => :test
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
 # Use postgresql as the database for Active Record
