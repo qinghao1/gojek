@@ -18,8 +18,8 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     expected_response = [
       {
-        id: 1,
         distance: 0.0,
+        id: 1,
         longitude: 1.0,
         latitude: 1.0,
       }
@@ -38,14 +38,14 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     expected_response = [
       {
-        id: 1,
         distance: 0.0,
+        id: 1,
         longitude: 1.0,
         latitude: 1.0,
       },
       {
-        id: 4,
         distance: 1111.33381293,
+        id: 4,
         longitude: 1.001,
         latitude: 1.01,
       }
