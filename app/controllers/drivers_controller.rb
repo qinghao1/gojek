@@ -82,7 +82,7 @@ class DriversController < ApplicationController
       .to_sql
 
     restricted_distance_query = 
-    "EXPLAIN SELECT * FROM (#{distance_query}) dq "\
+    "SELECT * FROM (#{distance_query}) dq "\
     "WHERE dq.distance < #{sanitized_params[:radius]} "\
     "ORDER BY dq.distance "\
     "LIMIT #{sanitized_params[:limit]} "
