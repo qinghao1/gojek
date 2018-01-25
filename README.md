@@ -16,7 +16,7 @@ k-nearest-neighbors search and other spatial operations (if needed eventually).
 - PostgreSQL (10.1)
 - PostGIS (2.4.3)
 
-### Deployment Environment
+### Production Environment
 - The above, plus
 - rvm
 - nginx
