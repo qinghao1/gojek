@@ -8,3 +8,10 @@ two:
   id: 2
   lonlat: 'POINT(2 1)'
 
+three:
+  id: 3
+  lonlat: 'POINT(3 1)'
+
+four:
+  id: 4
+  lonlat: 'POINT(1.001 1.01)'

@@ -27,6 +27,58 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
     assert_equal @response.body, expected_response
   end
 
+  test "Correct customer parameters, further radius" do
+    get "/drivers", {
+      params: {
+        latitude: 1,
+        longitude: 1,
+        radius: 2000,
+      }
+    }
+    assert_response :success
+    expected_response = [
+      {
+        id: 1,
+        distance: 0.0,
+        longitude: 1.0,
+        latitude: 1.0,
+      },
+      {
+        id: 4,
+        distance: 1111.33381293,
+        longitude: 1.001,
+        latitude: 1.01,
+      }
+    ].to_json
+    assert_equal @response.body, expected_response
+  end
+
+  test "Correct customer parameters but limit 0" do
+    get "/drivers", {
+      params: {
+        latitude: 1,
+        longitude: 1,
+        limit: 0
+      }
+    }
+    assert_response :success
+    expected_response = [].to_json
+    assert_equal @response.body, expected_response
+  end
+
+  test "Correct customer parameters but radius 0" do
+    get "/drivers", {
+      params: {
+        latitude: 1,
+        longitude: 1,
+        radius: 0
+      }
+    }
+    assert_response :success
+    expected_response = [].to_json
+    assert_equal @response.body, expected_response
+  end
+
   test "Correct customer parameters but too far" do
     get "/drivers", {
       params: {
@@ -214,6 +266,90 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
         "Longitude should be between +/- 90",
       ]
     }.to_json
+    assert_equal @response.body, expected_response
+  end
+
+  test "Wrong driver parameters (Accuracy)" do
+    put_json location_driver_url(id: 44), {
+      longitude: 10,
+      latitude: 10,
+      accuracy: 500,
+    }
+    assert_response 422
+    expected_response = {
+      errors: [
+        "Accuracy should be between 0 and 1",
+      ]
+    }.to_json
+    assert_equal @response.body, expected_response
+  end
+
+  test "Wrong driver parameters (Missing long)" do
+    put_json location_driver_url(id: 44), {
+      latitude: 10,
+      accuracy: 1,
+    }
+    assert_response 422
+    expected_response = {
+      errors: [
+        "Longitude should be between +/- 90",
+      ]
+    }.to_json
+    assert_equal @response.body, expected_response
+  end
+
+  test "Wrong driver parameters (Missing lat)" do
+    put_json location_driver_url(id: 44), {
+      longitude: 10,
+      accuracy: 1,
+    }
+    assert_response 422
+    expected_response = {
+      errors: [
+        "Latitude should be between +/- 90",
+      ]
+    }.to_json
+    assert_equal @response.body, expected_response
+  end
+
+  test "Wrong driver parameters (Weird lat)" do
+    put_json location_driver_url(id: 44), {
+      latitude: "dsdsdsds!",
+      longitude: 10,
+      accuracy: 1,
+    }
+    assert_response 422
+    expected_response = {
+      errors: [
+        "Latitude should be between +/- 90",
+      ]
+    }.to_json
+    assert_equal @response.body, expected_response
+  end
+
+  test "Wrong driver parameters (Weird long)" do
+    put_json location_driver_url(id: 44), {
+      latitude: 10,
+      longitude: "ffff",
+      accuracy: 1,
+    }
+    assert_response 422
+    expected_response = {
+      errors: [
+        "Longitude should be between +/- 90",
+      ]
+    }.to_json
+    assert_equal @response.body, expected_response
+  end
+
+  test "Update existing driver" do
+    put_json location_driver_url(id: 3), {
+      longitude: 10,
+      latitude: 10,
+      accuracy: 0.5,
+    }
+    assert_response 200
+    expected_response = {}.to_json
     assert_equal @response.body, expected_response
   end
 end
