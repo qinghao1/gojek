@@ -42,10 +42,10 @@ Simply run
 2. Change the appropriate values in /config/deploy.rb, then push to repo
     1. Server IP and port
     2. Repo URL
-3. On development computer, run  
+3. On development computer, run
 
         bundle exec cap production deploy:initial
-(For future deployments, leave out the :initial)
+
 4. SSH into production server and run the following commands:  
 
 	sudo rm /etc/nginx/sites-enabled/default
