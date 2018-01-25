@@ -1,12 +1,12 @@
 # README
 
 A driver-finding API for Go-Jek.  
-Written using Ruby on Rails and PostgreSQL & PostGIS by [Chu Qing Hao](qinghao1.com).  
+Written using Ruby on Rails and PostgreSQL & PostGIS by [Chu Qing Hao](http://qinghao1.com).  
 A live version is up at **128.199.155.167**
 
 ## Tech Stack
 I chose Rails and Postgres because of my familiarity with them.
-[PostGIS](postgis.net) is used with Postgres to enable fast
+[PostGIS](http://postgis.net) is used with Postgres to enable fast
 k-nearest-neighbors search and other spatial operations (if needed eventually).
 
 ## Required software
