@@ -195,7 +195,7 @@ class DriversController < ApplicationController
     # Important: Parameters must be sanitized because
     # can't use in-built ActiveRecord protections with PostGIS
 
-    Driver
+    nearest_k_drivers = Driver
     .select(
       "ST_Distance(
         lonlat, 
@@ -205,14 +205,19 @@ class DriversController < ApplicationController
       "ST_X(lonlat::geometry) AS longitude",
       "ST_Y(lonlat::geometry) AS latitude"
     )
-    .where(
-      "ST_Distance(
-        lonlat, 
-        'POINT(#{sanitized_params[:longitude]} #{sanitized_params[:latitude]})'
-      ) < #{sanitized_params[:radius]}"
+    .order(
+      "lonlat"\
+      " <-> "\
+      "'POINT(#{sanitized_params[:longitude]} #{sanitized_params[:latitude]})'"
     )
-    .order("distance")
     .limit(sanitized_params[:limit])
+    .to_sql
+
+    nearest_k_drivers_within_radius = 
+    "SELECT * FROM (#{nearest_k_drivers}) x "\
+    "WHERE distance < #{sanitized_params[:radius]}"
+
+    ActiveRecord::Base.connection.execute(nearest_k_drivers_within_radius)
   end
 
   def valid_coord(lonlat)
