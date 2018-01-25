@@ -36,7 +36,7 @@ Simply run
     3. Create Postgres database *gojek_production*
     4. Connect to it and execute 
 
-	CREATE EXTENSION PostGIS;
+    	CREATE EXTENSION PostGIS;
 
     5. Create user *gojek* with password *passw* (or change in database.yml file)
 2. Change the appropriate values in /config/deploy.rb, then push to repo
@@ -44,7 +44,7 @@ Simply run
     2. Repo URL
 3. On development computer, run  
 
-	bundle exec cap production deploy:initial
+    	bundle exec cap production deploy:initial
 
 (For future deployments, leave out the :initial)
 4. SSH into production server and run the following commands:  
