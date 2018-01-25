@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180124144257) do
+ActiveRecord::Schema.define(version: 20180125124053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 20180124144257) do
 
   create_table "drivers", force: :cascade do |t|
     t.geography "lonlat", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.decimal "accuracy"
+    t.index ["lonlat"], name: "index_drivers_on_lonlat", using: :gist
   end
 
 end
