@@ -6,4 +6,10 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  # Test PUT for JSON, from
+  # https://gist.github.com/dteoh/2d4c115446e2429824b6945c45c07f3b
+  def put_json(path, obj)
+    put path, params: obj.to_json, headers: { 'CONTENT_TYPE' => 'application/json' }
+  end
 end
