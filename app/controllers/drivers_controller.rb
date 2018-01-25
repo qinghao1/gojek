@@ -28,6 +28,7 @@ class DriversController < ApplicationController
           json: closest_drivers(sanitized).to_json,
         })
       end
+    # Missing latitude/longitude params
     rescue ActionController::ParameterMissing
         render({
           json: {
@@ -50,6 +51,7 @@ class DriversController < ApplicationController
           json: {},
           status: :not_found,
         )
+        return
       end
       # Check latitude
       if !valid_coord(sanitized["latitude"])
@@ -101,6 +103,7 @@ class DriversController < ApplicationController
             },
             status: :unprocessable_entity,
           })
+          return
         end
       end
     rescue ActionController::ParameterMissing
@@ -110,6 +113,7 @@ class DriversController < ApplicationController
           },
           status: :unprocessable_entity,
         })
+        return
     end
   end
 
@@ -164,7 +168,17 @@ class DriversController < ApplicationController
   end
 
   def sanitize_and_normalize_driver_req(req)
-    req = JSON.parse(req)
+    begin
+      req = JSON.parse(req)
+    # If request is wonky, JSON parser will throw error
+    rescue JSON::ParserError
+      return {
+        "latitude" => nil,
+        "longitude" => nil,
+        "accuracy" => 1,
+      }
+    end
+
     if req["latitude"].is_a? String
       req["latitude"] = nil
     end
