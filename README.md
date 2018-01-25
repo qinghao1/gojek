@@ -1,7 +1,7 @@
 # README
 
-A driver-finding API for Go-Jek. 
-Written using Ruby on Rails and PostgreSQL & PostGIS by [Chu Qing Hao](qinghao1.com)
+A driver-finding API for Go-Jek.  
+Written using Ruby on Rails and PostgreSQL & PostGIS by [Chu Qing Hao](qinghao1.com).  
 A live version is up at *128.199.155.167*
 
 ## Tech Stack
