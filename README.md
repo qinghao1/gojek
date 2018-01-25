@@ -36,7 +36,7 @@ Simply run
     3. Create Postgres database *gojek_production*
     4. Connect to it and execute 
 
-        CREATE EXTENSION PostGIS;
+            CREATE EXTENSION PostGIS;
 
     5. Create user *gojek* with password *passw* (or change in database.yml file)
 2. Change the appropriate values in /config/deploy.rb, then push to repo
@@ -48,11 +48,11 @@ Simply run
 
 4. SSH into production server and run the following commands:  
 
-	sudo rm /etc/nginx/sites-enabled/default
+        sudo rm /etc/nginx/sites-enabled/default
 
-	sudo ln -nfs "/home/deploy/apps/appname/current/config/nginx.conf" "/etc/nginx/sites-enabled/appname"
+        sudo ln -nfs "/home/deploy/apps/appname/current/config/nginx.conf" "/etc/nginx/sites-enabled/appname"
 
-	sudo service nginx restart
+        sudo service nginx restart
 
 5. You should be good to go! (Hopefully)
 
