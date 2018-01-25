@@ -9,7 +9,16 @@ end
 gem 'activerecord-postgis-adapter'
 
 # SimpleCov for code coverage testing
-gem 'simplecov', :require => false, :group => :test
+gem 'simplecov', require: false, group: :test
+
+# Deployment gems
+group :development do
+    gem 'capistrano',         require: false
+    gem 'capistrano-rvm',     require: false
+    gem 'capistrano-rails',   require: false
+    gem 'capistrano-bundler', require: false
+    gem 'capistrano3-puma',   require: false
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'

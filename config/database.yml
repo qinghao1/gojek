@@ -81,5 +81,6 @@ test:
 production:
   <<: *default
   database: gojek_production
+  host: localhost
   username: gojek
   password: passw
