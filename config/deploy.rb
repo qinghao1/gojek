@@ -1,5 +1,5 @@
 # Change server IP and port
-server '128.199.155.167', port: 3000, roles: [:web, :app, :db], primary: true
+server '128.199.155.167', port: 22, roles: [:web, :app, :db], primary: true
 
 # Change repo url
 set :repo_url,        'git@github.com:qinghao1/gojek.git'
