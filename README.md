@@ -2,7 +2,7 @@
 
 A driver-finding API for Go-Jek.  
 Written using Ruby on Rails and PostgreSQL & PostGIS by [Chu Qing Hao](qinghao1.com).  
-A live version is up at *128.199.155.167*
+A live version is up at _128.199.155.167_
 
 ## Tech Stack
 I chose Rails and Postgres because of my familiarity with them.
@@ -23,6 +23,7 @@ k-nearest-neighbors search and other spatial operations (if needed eventually).
 
 ## Testing
 Simply run  
+
 	rails test
 
 ## Deployment instructions
@@ -33,16 +34,17 @@ Simply run
     1. Create user *deploy@server_ip*
     2. Setup ssh keys for development computer for user *deploy* 
     3. Create Postgres database *gojek_production*
-    4. Connect to it and execute  
-	CREATE EXTENSION PostGIS;
+    4. Connect to it and execute *CREATE EXTENSION PostGIS;*
     5. Create user *gojek* with password *passw* (or change in database.yml file)
 2. Change the appropriate values in /config/deploy.rb, then push to repo
     1. Server IP and port
     2. Repo URL
 3. On development computer, run  
+
 	bundle exec cap production deploy:initial
 (For future deployments, leave out the :initial)
 4. SSH into production server and run the following commands:  
+
 	sudo rm /etc/nginx/sites-enabled/default
 	sudo ln -nfs "/home/deploy/apps/appname/current/config/nginx.conf" "/etc/nginx/sites-enabled/appname"
 	sudo service nginx restart
