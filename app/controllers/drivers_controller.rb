@@ -187,10 +187,10 @@ class DriversController < ApplicationController
       }
     end
 
-    if req["latitude"].is_a? String
+    if !req["latitude"].is_a? Numeric
       req["latitude"] = nil
     end
-    if req["longitude"].is_a? String
+    if !req["longitude"].is_a? Numeric
       req["longitude"] = nil
     end
     req["accuracy"] ||= 1

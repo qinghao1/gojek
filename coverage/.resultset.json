@@ -1,6 +1,148 @@
 {
   "MiniTest": {
     "coverage": {
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/environment.rb": [
+        null,
+        1,
+        null,
+        null,
+        1
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/environments/test.rb": [
+        1,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/initializers/application_controller_renderer.rb": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/initializers/backtrace_silencers.rb": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/initializers/cors.rb": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/initializers/filter_parameter_logging.rb": [
+        null,
+        null,
+        null,
+        1
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/initializers/inflections.rb": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/initializers/mime_types.rb": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/initializers/wrap_parameters.rb": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        2,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/config/routes.rb": [
+        1,
+        null,
+        1,
+        1,
+        null,
+        null
+      ],
       "/Users/qinghao1/Documents/CS/Ruby/Projects/GoJek/gojek/test/models/driver_test.rb": [
         1,
         null,
@@ -281,6 +423,6 @@
         null
       ]
     },
-    "timestamp": 1517028778
+    "timestamp": 1517087725
   }
 }
