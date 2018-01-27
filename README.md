@@ -54,5 +54,16 @@ Enable Travis CI on your repo for automated testing.
 
 5. You should be good to go! (Hopefully)
 
-## Infrastructure requirements
-Unfortunately, I do not have the means to test the API to give a precise requirement. However, a newer and more powerful server should be preferred.
+## Load Testing and Infrastructure requirements
+In project folder, run
+
+    gem install gas_load_tester rest-client
+    ruby load_testing.rb
+Results should be printed to console. Unfortunately, I'm not able to test the driver PUT location API completely due to lacking hardware.
+
+Based on my testing with 128.199.155.167 (the cheapest DigitalOcean VM with 1GB 1vCPU), the customer API can respond in around 100ms under full load. However, the driver API takes around 400ms to respond for 100 request per second (the maximum I can test).
+
+Thus, better infrastructure is required to improve the driver API speed. Unfortunately, I cannot provide a precise requirement. However, a newer and more powerful server should be preferred.
+
+## Improvements
+To improve driver API performance, we can cache and batch insert records into the database. However, I couldn't implement this in time.

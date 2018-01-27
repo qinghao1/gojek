@@ -23,7 +23,7 @@ def print_results(test, test_name)
   puts "Avg: #{times.sum.fdiv(times.size)}s, Max: #{times.max}s"
 end
 
-drivers_test = GasLoadTester::Test.new({client: 2000, time: 20})
+drivers_test = GasLoadTester::Test.new({client: 1000, time: 10})
 drivers_test.run do
   RestClient.put(
     "#{SERVER_URL}/drivers/#{rng.rand(1..50000)}/location",
