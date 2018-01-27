@@ -1,3 +1,5 @@
+# See https://github.com/travis-ci/travis-ci/issues/8537
+
 set -ex
 
 echo "Installing Postgres 10"
