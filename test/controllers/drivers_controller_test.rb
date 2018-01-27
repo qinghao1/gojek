@@ -38,19 +38,22 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     expected_response = [
       {
-        distance: 0.0,
-        id: 1,
-        longitude: 1.0,
-        latitude: 1.0,
+        "distance" => 0.0,
+        "id" => 1,
+        "longitude" => 1.0,
+        "latitude" => 1.0,
       },
       {
-        distance: 1111.333812931,
-        id: 4,
-        longitude: 1.001,
-        latitude: 1.01,
+        "distance" => 1111.3338,
+        "id" => 4,
+        "longitude" => 1.001,
+        "latitude" => 1.01,
       }
-    ].to_json
-    assert_equal @response.body, expected_response
+    ]
+    # Truncate to 4dp
+    response_body = JSON.parse(@response.body)
+    response_body[1]["distance"] = (response_body[1]["distance"] * 10000).round / 10000.0
+    assert_equal response_body, expected_response
   end
 
   test "Correct customer parameters but limit 0" do
