@@ -22,9 +22,7 @@ k-nearest-neighbors search and other spatial operations (if needed eventually).
 - nginx
 
 ## Testing
-Simply run  
-
-	rails test
+Enable Travis CI on your repo for automated testing.
 
 ## Deployment instructions
 (Refer to [this guide from DigitalOcean](https://www.digitalocean.com/community/tutorials/deploying-a-rails-app-on-ubuntu-14-04-with-capistrano-nginx-and-puma))
