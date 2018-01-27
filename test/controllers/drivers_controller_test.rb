@@ -351,5 +351,15 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     expected_response = {}.to_json
     assert_equal @response.body, expected_response
+    driver = Driver.find(3)
+    assert(
+      driver.lonlat.longitude == 10.to_f
+    )
+    assert(
+      driver.lonlat.longitude == 10.to_f
+    )
+    assert(
+      driver.accuracy == 0.5
+    )
   end
 end
