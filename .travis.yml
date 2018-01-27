@@ -3,6 +3,9 @@ rvm:
   - 2.5.0
 services:
   - postgresql
+sudo: true
 before_script:
-  - psql -U postgres -c "create extension postgis"
+  # Install PostGIS (https://gis.stackexchange.com/questions/252609/could-not-access-file-libdir-postgis-2-3-on-travis-installation)
+  - sudo apt-get install postgresql-9.6-postgis-2.3 postgis -y -q
   - psql -c 'create database gojek_test;' -U postgres
+  - psql -U postgres -c "create extension postgis"
