@@ -7,7 +7,7 @@ A live version is up at **128.199.155.167**
 ## Tech Stack
 I chose Rails and Postgres because of my familiarity with them.
 [PostGIS](http://postgis.net) is used with Postgres to enable fast
-k-nearest-neighbors search and other spatial operations (if needed eventually).
+k-nearest-neighbors search and other spatial operations (for future features).
 
 ## Required software
 ### Development Environment
@@ -36,7 +36,7 @@ Enable Travis CI on your repo for automated testing.
 
             CREATE EXTENSION PostGIS;
 
-    5. Create user *gojek* with password *passw* (or change in database.yml file)
+    5. Create user *gojek* with password *passw*
 2. Change the appropriate values in /config/deploy.rb, then push to repo
     1. Server IP and port
     2. Repo URL
