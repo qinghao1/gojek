@@ -124,123 +124,122 @@ class DriversController < ApplicationController
 
   # Helper methods
   private
+    DECIMAL_REGEX = /\d+(\.\d+)?/.freeze
 
-  # Given params hash, sanitizes it and sets defaults
-  def sanitize_and_normalize_customer_params(params)
-    params
-    .permit(
-      :latitude,
-      :longitude,
-      :radius,
-      :limit,
-    )
-    .require(
-      [
+    # Given params hash, sanitizes it and sets defaults
+    def sanitize_and_normalize_customer_params(params)
+      params
+      .permit(
         :latitude,
         :longitude,
-      ]
-    )
+        :radius,
+        :limit,
+      )
+      .require(
+        [
+          :latitude,
+          :longitude,
+        ]
+      )
 
-    # Check that latitude is a decimal number
-    if DECIMAL_REGEX =~ params[:latitude]
-      params[:latitude] = params[:latitude].to_f
-    else
-      params[:latitude] = nil
+      # Check that latitude is a decimal number
+      if DECIMAL_REGEX =~ params[:latitude]
+        params[:latitude] = params[:latitude].to_f
+      else
+        params[:latitude] = nil
+      end
+
+      # Check that longitude is a decimal number
+      if DECIMAL_REGEX =~ params[:longitude]
+        params[:longitude] = params[:longitude].to_f
+      else
+        params[:longitude] = nil
+      end
+
+      # Check that radius is a decimal number if it exists
+      # Else, set to 500 default
+      if params[:radius] and DECIMAL_REGEX =~ params[:radius]
+        params[:radius] = params[:radius].to_f 
+      else
+        params[:radius] = 500
+      end
+
+      # Check that limit is a decimal number if it exists
+      # Else, set to 10 default
+      if params[:limit] and DECIMAL_REGEX =~ params[:limit]
+        params[:limit] = params[:limit].to_f 
+      else
+        params[:limit] = 10
+      end
+
+      return params
     end
 
-    # Check that longitude is a decimal number
-    if DECIMAL_REGEX =~ params[:longitude]
-      params[:longitude] = params[:longitude].to_f
-    else
-      params[:longitude] = nil
+    # Given req string, returns sanitized request as a hash
+    def sanitize_and_normalize_driver_req(req)
+      begin
+        req = JSON.parse(req)
+      # Return dummy request if JSON is wonky
+      rescue JSON::ParserError
+        return {
+          "latitude" => nil,
+          "longitude" => nil,
+          "accuracy" => 1,
+        }
+      end
+
+      if !req["latitude"].is_a? Numeric
+        req["latitude"] = nil
+      end
+      if !req["longitude"].is_a? Numeric
+        req["longitude"] = nil
+      end
+      req["accuracy"] ||= 1
+
+      return req
     end
 
-    # Check that radius is a decimal number if it exists
-    # Else, set to 500 default
-    if params[:radius] and DECIMAL_REGEX =~ params[:radius]
-      params[:radius] = params[:radius].to_f 
-    else
-      params[:radius] = 500
+    # Returns driver objects given query parameters
+    # Important: Parameters must be sanitized because
+    # of string interpolation. Unfortunately PostGIS demands this
+    def closest_drivers(sanitized_params)
+      # Query to find nearest $limit drivers
+      nearest_k_drivers = Driver
+      .select(
+        "ST_Distance("\
+        " lonlat,"\
+        " 'POINT(#{sanitized_params[:longitude]} #{sanitized_params[:latitude]})'"\
+        ") AS distance",
+        "id",
+        "ST_X(lonlat::geometry) AS longitude",
+        "ST_Y(lonlat::geometry) AS latitude"
+      )
+      .order( # Order by spatial distance; this is optimized by PostGIS
+        "lonlat"\
+        " <-> "\
+        "'POINT(#{sanitized_params[:longitude]} #{sanitized_params[:latitude]})'"
+      )
+      .limit(sanitized_params[:limit])
+      .to_sql
+
+      # Modify query to filter to those within $radius
+      nearest_k_drivers_within_radius = 
+      "SELECT * FROM (#{nearest_k_drivers}) x "\
+      "WHERE distance < #{sanitized_params[:radius]}"
+
+      # Execute query
+      ActiveRecord::Base.connection.execute(nearest_k_drivers_within_radius)
     end
 
-    # Check that limit is a decimal number if it exists
-    # Else, set to 10 default
-    if params[:limit] and DECIMAL_REGEX =~ params[:limit]
-      params[:limit] = params[:limit].to_f 
-    else
-      params[:limit] = 10
+    def valid_coord?(lonlat)
+      return (lonlat and (lonlat >= -90 and lonlat <= 90))
     end
 
-    return params
-  end
-
-  # Given req string, returns sanitized request as a hash
-  def sanitize_and_normalize_driver_req(req)
-    begin
-      req = JSON.parse(req)
-    # Return dummy request if JSON is wonky
-    rescue JSON::ParserError
-      return {
-        "latitude" => nil,
-        "longitude" => nil,
-        "accuracy" => 1,
-      }
+    def valid_id?(id)
+      return (id >= 1 and id <= 50000)
     end
 
-    if !req["latitude"].is_a? Numeric
-      req["latitude"] = nil
+    def valid_accuracy?(acc)
+      return (acc >= 0 and acc <= 1)
     end
-    if !req["longitude"].is_a? Numeric
-      req["longitude"] = nil
-    end
-    req["accuracy"] ||= 1
-
-    return req
-  end
-
-  # Returns driver objects given query parameters
-  # Important: Parameters must be sanitized because
-  # of string interpolation. Unfortunately PostGIS demands this
-  def closest_drivers(sanitized_params)
-    # Query to find nearest $limit drivers
-    nearest_k_drivers = Driver
-    .select(
-      "ST_Distance("\
-      " lonlat,"\
-      " 'POINT(#{sanitized_params[:longitude]} #{sanitized_params[:latitude]})'"\
-      ") AS distance",
-      "id",
-      "ST_X(lonlat::geometry) AS longitude",
-      "ST_Y(lonlat::geometry) AS latitude"
-    )
-    .order( # Order by spatial distance; this is optimized by PostGIS
-      "lonlat"\
-      " <-> "\
-      "'POINT(#{sanitized_params[:longitude]} #{sanitized_params[:latitude]})'"
-    )
-    .limit(sanitized_params[:limit])
-    .to_sql
-
-    # Modify query to filter to those within $radius
-    nearest_k_drivers_within_radius = 
-    "SELECT * FROM (#{nearest_k_drivers}) x "\
-    "WHERE distance < #{sanitized_params[:radius]}"
-
-    # Execute query
-    ActiveRecord::Base.connection.execute(nearest_k_drivers_within_radius)
-  end
-
-  def valid_coord?(lonlat)
-    return (lonlat and (lonlat >= -90 and lonlat <= 90))
-  end
-
-  def valid_id?(id)
-    return (id >= 1 and id <= 50000)
-  end
-
-  def valid_accuracy?(acc)
-    return (acc >= 0 and acc <= 1)
-  end
-
-  DECIMAL_REGEX = /\d+(\.\d+)?/.freeze
 end
