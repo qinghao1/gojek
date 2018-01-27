@@ -44,7 +44,7 @@ class DriversControllerTest < ActionDispatch::IntegrationTest
         latitude: 1.0,
       },
       {
-        distance: 1111.33381293,
+        distance: 1111.333812931,
         id: 4,
         longitude: 1.001,
         latitude: 1.01,

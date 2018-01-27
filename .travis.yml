@@ -1,3 +1,13 @@
+sudo: required
+dist: trusty
 language: ruby
 rvm: 
   - 2.5.0
+services:
+  - postgresql
+addons:
+  postgresql: 9.6
+before_script:
+  - bash travis-install-pg10-postgis.sh
+  - psql -c 'create database gojek_test;' -U postgres
+  - psql -U postgres -c "create extension postgis"
