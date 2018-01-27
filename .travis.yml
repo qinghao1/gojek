@@ -5,7 +5,7 @@ services:
   - postgresql
 sudo: true
 addons:
-  postgresql: 9.6
+  postgresql: 10.1
   apt:
     packages:
       - postgresql-9.6-postgis-2.3
