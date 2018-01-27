@@ -1,9 +1,10 @@
+sudo: required
+dist: trusty
 language: ruby
 rvm: 
   - 2.5.0
 services:
   - postgresql
-sudo: true
 addons:
   postgresql: 10.1
   apt:
