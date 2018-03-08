@@ -48,7 +48,7 @@ Enable Travis CI on your repo for automated testing.
 
         sudo rm /etc/nginx/sites-enabled/default
 
-        sudo ln -nfs "/home/deploy/apps/appname/current/config/nginx.conf" "/etc/nginx/sites-enabled/appname"
+        sudo ln -nfs "/home/deploy/apps/gojek/current/config/nginx.conf" "/etc/nginx/sites-enabled/appname"
 
         sudo service nginx restart
 
